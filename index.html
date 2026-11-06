@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>测测你的四季色彩｜你最适合哪种颜色？</title>
+<meta name="description" content="20 道题测出你的四季色彩季型，附专属配色、穿搭与饰品建议。">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23F6F3F1'/%3E%3Ccircle cx='24' cy='26' r='9' fill='%23E0B08A'/%3E%3Ccircle cx='40' cy='26' r='9' fill='%23A9BCCF'/%3E%3Ccircle cx='24' cy='42' r='9' fill='%23A97C5B'/%3E%3Ccircle cx='40' cy='42' r='9' fill='%23333B4E'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://miaoda.feishu.cn">
+<link rel="stylesheet" href="https://miaoda.feishu.cn/fonts/css2?family=Noto+Serif+SC:wght@400;500;600&display=swap">
+<style>
+:root{
+  --paper:#F6F3F1;
+  --paper-2:#EFEAE6;
+  --ink:#3C3733;
+  --ink-2:#6B625D;
+  --ink-3:#9C928B;
+  --line:#E7E0DA;
+  --accent:#B0A69C;
+  --accent-tint:#F3EDE8;
+}
+*{box-sizing:border-box;}
+html{-webkit-text-size-adjust:100%;}
+body{
+  margin:0;
+  background:var(--paper);
+  color:var(--ink);
+  font:15px/1.7 -apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+  -webkit-font-smoothing:antialiased;
+}
+.serif{font-family:"Noto Serif SC","Songti SC","Source Han Serif SC","STSong",serif;}
+
+.shell{
+  max-width:480px;
+  margin:0 auto;
+  padding:22px 22px 46px;
+  min-height:100vh;
+  position:relative;
+}
+@media (min-width:760px){
+  body{background:var(--paper-2);}
+  .shell{
+    max-width:500px;
+    min-height:auto;
+    margin:28px auto;
+    background:var(--paper);
+    border-radius:22px;
+    padding:30px 30px 50px;
+    box-shadow:0 24px 70px rgba(60,55,51,.10);
+  }
+}
+
+.view{display:none;}
+.view.active{display:block;animation:fadeUp .34s ease both;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:none;}}
+@media (prefers-reduced-motion:reduce){
+  .view.active{animation:none;}
+  *{transition-duration:.01ms !important;}
+}
+
+/* ---------- 封面 ---------- */
+.brand-line{display:flex;align-items:center;gap:8px;margin-bottom:18px;font-size:12px;letter-spacing:.16em;color:var(--ink-3);}
+.brand-dot{width:7px;height:7px;border-radius:50%;background:var(--accent);display:inline-block;}
+.cover-img{width:100%;aspect-ratio:3/2;object-fit:cover;border-radius:16px;display:block;background:var(--paper-2);}
+.cover-title{font-size:31px;line-height:1.34;letter-spacing:.01em;font-weight:600;margin:26px 0 9px;}
+.cover-sub{font-size:15px;color:var(--ink-2);margin:0 0 16px;letter-spacing:.02em;}
+.cover-lede{font-size:14.5px;line-height:1.95;color:var(--ink-2);margin:0 0 24px;}
+.spectrum{display:flex;gap:4px;height:9px;margin-bottom:9px;}
+.spectrum span{flex:1;border-radius:3px;}
+.spectrum-cap{font-size:12px;color:var(--ink-3);letter-spacing:.1em;margin:0 0 26px;}
+.cover-meta{font-size:12.5px;line-height:1.75;color:var(--ink-3);text-align:center;margin:14px 0 0;}
+
+.btn-primary{
+  width:100%;height:52px;border-radius:28px;border:0;
+  background:#3C3733;color:#FBF9F6;
+  font:inherit;font-size:15.5px;letter-spacing:.08em;
+  cursor:pointer;transition:transform .15s ease,background .2s ease;
+}
+.btn-primary:active{transform:scale(.985);}
+.btn-primary:disabled{background:#DED5CF;color:#9A8F89;cursor:not-allowed;}
+.btn-ghost{
+  height:52px;padding:0 20px;border-radius:28px;
+  background:transparent;border:1px solid var(--line);color:var(--ink-2);
+  font:inherit;font-size:14.5px;cursor:pointer;transition:background .2s,border-color .2s;
+}
+.btn-ghost:hover{border-color:#D3C9C2;}
+
+/* ---------- 答题 ---------- */
+.quiz-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
+.icon-btn{width:44px;height:44px;margin-left:-11px;border:0;background:transparent;color:var(--ink-3);cursor:pointer;display:grid;place-items:center;border-radius:50%;}
+.icon-btn:hover{background:var(--accent-tint);color:var(--ink);}
+.quiz-count{font-size:13px;letter-spacing:.08em;color:var(--ink-3);}
+.quiz-count b{color:var(--ink);font-weight:600;font-size:15px;}
+.progress{height:4px;background:#EAE2DC;border-radius:99px;overflow:hidden;}
+.progress span{display:block;width:0;height:100%;border-radius:99px;background:#3C3733;transition:width .32s ease;}
+
+.q-body{padding:36px 0 0;}
+.q-index{font-size:12.5px;letter-spacing:.12em;color:var(--ink-3);margin:0 0 12px;}
+.q-text{font-size:21px;line-height:1.64;font-weight:500;letter-spacing:.01em;margin:0 0 26px;}
+.options{display:flex;flex-direction:column;gap:11px;}
+.opt{
+  display:flex;align-items:flex-start;gap:13px;width:100%;text-align:left;
+  padding:15px 17px;min-height:56px;
+  border:1px solid var(--line);border-radius:14px;background:#fff;
+  font:inherit;font-size:15px;line-height:1.7;color:var(--ink);
+  cursor:pointer;transition:border-color .18s,background .18s,box-shadow .18s;
+}
+.opt:hover{border-color:#D6CCC5;}
+.opt:focus-visible{outline:2px solid #B9AFA6;outline-offset:2px;}
+.opt .badge{
+  flex:0 0 24px;width:24px;height:24px;margin-top:2px;border-radius:50%;
+  border:1px solid var(--line);
+  display:grid;place-items:center;
+  font-family:"Noto Serif SC","Songti SC",serif;font-size:12px;color:var(--ink-3);
+  transition:.18s ease;
+}
+.opt[aria-pressed="true"]{border-color:#3C3733;background:#FFFCFA;box-shadow:0 7px 18px rgba(60,55,51,.07);}
+.opt[aria-pressed="true"] .badge{background:#3C3733;border-color:#3C3733;color:#fff;}
+.quiz-foot{display:flex;gap:10px;margin-top:30px;}
+.quiz-foot .btn-primary{flex:1 1 auto;}
+
+/* ---------- 结果 ---------- */
+.res-kicker{font-size:12.5px;letter-spacing:.12em;color:var(--ink-3);margin:6px 0 12px;}
+.res-name{font-size:40px;line-height:1.2;font-weight:600;margin:0;color:var(--accent);letter-spacing:.02em;}
+.res-en{font-size:11.5px;letter-spacing:.2em;color:var(--ink-3);margin:11px 0 0;text-transform:uppercase;}
+.res-tagline{font-size:15px;line-height:1.85;color:var(--ink-2);margin:15px 0 24px;}
+.res-photo{width:100%;aspect-ratio:4/5;object-fit:cover;border-radius:18px;display:block;background:var(--paper-2);}
+
+.dims{margin-top:30px;padding:20px 20px 6px;background:#fff;border:1px solid var(--line);border-radius:16px;}
+.dims-head{font-size:13px;letter-spacing:.1em;color:var(--ink-3);margin:0 0 18px;}
+.dim{margin-bottom:20px;}
+.dim-top{display:flex;justify-content:space-between;align-items:baseline;font-size:12.5px;color:var(--ink-3);letter-spacing:.06em;margin-bottom:9px;}
+.dim-top b{font-size:14.5px;font-weight:600;color:var(--ink);letter-spacing:.02em;}
+.dim-track{position:relative;height:4px;border-radius:99px;background:#EFE8E3;}
+.dim-track .fill{position:absolute;left:0;top:0;height:100%;border-radius:99px;background:var(--accent);opacity:.55;}
+.dim-track .knob{position:absolute;top:50%;width:10px;height:10px;border-radius:50%;background:#fff;border:1.5px solid var(--accent);transform:translate(-50%,-50%);}
+.dim-note{font-size:12.5px;line-height:1.75;color:var(--ink-3);margin:9px 0 0;}
+.dims-ends{display:flex;justify-content:space-between;font-size:11px;color:#B7ADA6;margin-top:4px;}
+
+.sec{margin-top:34px;}
+.sec h3{font-size:17px;font-weight:600;letter-spacing:.03em;margin:0 0 5px;}
+.sec .sub{font-size:12.5px;color:var(--ink-3);margin:0 0 16px;}
+.pal{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
+.sw{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:#fff;}
+.sw .chip{height:48px;}
+.sw .meta{padding:7px 9px 9px;}
+.sw .nm{font-size:12.5px;line-height:1.45;color:var(--ink);}
+.sw .hx{font-size:10.5px;color:var(--ink-3);letter-spacing:.04em;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;text-transform:uppercase;}
+.avoid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;}
+.avoid .sw .chip{height:38px;}
+.avoid .sw .meta{padding:6px 8px 8px;}
+.avoid .sw .nm{font-size:12px;}
+
+.advice{margin-top:34px;border-top:1px solid var(--line);padding-top:26px;}
+.adv{padding-bottom:24px;}
+.adv:last-child{padding-bottom:0;}
+.adv h4{font-size:15.5px;font-weight:600;letter-spacing:.03em;margin:0 0 9px;display:flex;align-items:center;gap:8px;}
+.adv h4 svg{width:14px;height:14px;flex:0 0 auto;opacity:.5;}
+.adv p{font-size:14.5px;line-height:1.95;color:var(--ink-2);margin:0 0 8px;}
+.adv p:last-child{margin-bottom:0;}
+
+.summary{display:flex;flex-wrap:wrap;gap:7px;margin:0 0 26px;}
+.tag{font-size:12.5px;color:var(--ink-2);background:#fff;border:1px solid var(--line);border-radius:99px;padding:5px 12px;}
+
+.res-actions{display:flex;flex-direction:column;gap:10px;margin-top:36px;}
+.res-note{font-size:12px;line-height:1.8;color:var(--ink-3);margin:14px 0 0;text-align:center;}
+
+.toast{
+  position:fixed;left:50%;bottom:34px;transform:translate(-50%,14px);
+  background:#3C3733;color:#FBF9F6;font-size:13.5px;letter-spacing:.04em;
+  padding:11px 20px;border-radius:99px;opacity:0;pointer-events:none;
+  transition:opacity .25s ease,transform .25s ease;z-index:50;white-space:nowrap;
+}
+.toast.show{opacity:1;transform:translate(-50%,0);}
+
+@media (max-width:360px){
+  .q-text{font-size:19px;}
+  .cover-title{font-size:27px;}
+  .pal{grid-template-columns:repeat(2,1fr);}
+}
+</style>
+</head>
+<body>
+<div class="shell" id="app">
+
+  <!-- ===== 视图：封面 ===== -->
+  <section class="view active" id="view-cover">
+    <div class="brand-line"><span class="brand-dot"></span>四季色彩 · 十二季型</div>
+    <img class="cover-img" src="https://media.doubao.com/space/api/box/stream/download/all_by_mount_point/UGwybraOaoxwFQxWfT4chZqenOP" alt="十二张莫兰迪色卡扇形展开">
+    <h1 class="cover-title serif">测测你的四季色彩</h1>
+    <p class="cover-sub">你最适合哪种颜色？</p>
+    <p class="cover-lede">肤色、发色与瞳孔的底调，决定了你和哪一组颜色天生同频。做完这 20 道题，你会得到属于自己的季型、能穿一辈子的配色，以及一份能直接照着买的穿搭清单。</p>
+    <div class="spectrum" aria-hidden="true">
+      <span style="background:#F0C6A6"></span><span style="background:#F0A055"></span><span style="background:#BF8157"></span>
+      <span style="background:#BACBDD"></span><span style="background:#B8AEC6"></span><span style="background:#A5AEC8"></span>
+      <span style="background:#A96A4C"></span><span style="background:#937A60"></span><span style="background:#8A4334"></span>
+      <span style="background:#AF4643"></span><span style="background:#3F73BE"></span><span style="background:#2E3652"></span>
+    </div>
+    <p class="spectrum-cap">春 · 夏 · 秋 · 冬，十二种天生的色彩倾向</p>
+    <button class="btn-primary" id="startBtn">开始测试</button>
+    <p class="cover-meta">20 道单选题 · 约 3 分钟<br>结果含配色色卡、服装款式与饰品建议</p>
+  </section>
+
+  <!-- ===== 视图：答题 ===== -->
+  <section class="view" id="view-quiz">
+    <div class="quiz-head">
+      <button class="icon-btn" id="backBtn" aria-label="返回上一题">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 19L7.5 12 15 5"/></svg>
+      </button>
+      <div class="quiz-count"><b id="qNow">1</b> / 20</div>
+    </div>
+    <div class="progress"><span id="progressFill"></span></div>
+    <div class="q-body">
+      <p class="q-index">第 <span id="qNum">1</span> 题 · 单选</p>
+      <h2 class="q-text serif" id="qText"></h2>
+      <div class="options" id="options"></div>
+    </div>
+    <div class="quiz-foot">
+      <button class="btn-ghost" id="prevBtn">上一题</button>
+      <button class="btn-primary" id="nextBtn" disabled>下一题</button>
+    </div>
+  </section>
+
+  <!-- ===== 视图：结果 ===== -->
+  <section class="view" id="view-result">
+    <div id="resHead"></div>
+    <div id="resBody"></div>
+    <div class="res-actions">
+      <button class="btn-primary" id="retryBtn">重新测试</button>
+      <button class="btn-ghost" id="copyBtn">复制分享文案</button>
+    </div>
+    <p class="res-note">结果按冷暖、明度、饱和度、对比度四个维度综合判定，仅供配色参考；穿得开心，比穿得"正确"更重要。</p>
+  </section>
+
+</div>
+
+<div class="toast" id="toast">已复制</div>
+
+<!-- 结果页配图（静态引用，供脚本取用） -->
+<div id="imgBank" style="display:none">
+  <img id="img-1" src="https://media.doubao.com/space/api/box/stream/download/all_by_mount_point/KmNIb0dfSo57KhxMz1mcaNaKnnl" alt="">
+  <img id="img-2" src="https://media.doubao.com/space/api/box/stream/download/all_by_mount_point/OHW1bYwr4oeyKexNTGAc6i6hn6e" alt="">
+  <img id="img-3" src="https://media.doubao.com/space/api/box/stream/download/all_by_mount_point/OfrSbNieuojluWxoqJmc9jtpnyg" alt="">
+  <img id="img-4" src="https://media.doubao.com/space/api/box/stream/download/all_by_mount_point/Gda7bF4rEoCaqUxwgzOcaKrXnpf" alt="">
+  <img id="img-5" src="https://media.doubao.com/space/api/box/stream/download/all_by_mount_point/Fi3wbktowoPf7QxM4M6c98ylnXu" alt="">
+  <img id="img-6" src="https://media.doubao.com/space/api/box/stream/download/all_by_mount_point/UxbEb4Ksjo2rnVx0EmIc4eihnDh" alt="">
+  <img id="img-7" src="https://media.doubao.com/space/api/box/stream/download/all_by_mount_point/OY0kbVWsmoe6zZxppZwc4aEznev" alt="">
+  <img id="img-8" src="https://media.doubao.com/space/api/box/stream/download/all_by_mount_point/GWiobarJ4o97smx8BuMcQsG0nId" alt="">
+  <img id="img-9" src="https://media.doubao.com/space/api/box/stream/download/all_by_mount_point/XDHNbu6q2oakVqxepA9c76cGnsg" alt="">
+  <img id="img-10" src="https://media.doubao.com/space/api/box/stream/download/all_by_mount_point/EyS9bu3vloYL7cxfqGocvjkTnbd" alt="">
+  <img id="img-11" src="https://media.doubao.com/space/api/box/stream/download/all_by_mount_point/XcZUb9AE0ooa7KxXZVhcz6RVnme" alt="">
+  <img id="img-12" src="https://media.doubao.com/space/api/box/stream/download/all_by_mount_point/BdQrb1Rmuo3RHdxoMHEcZQPznxd" alt="">
+</div>
+
+<script>
+/* ============ 题库：每题选项携带维度权重 ============ */
+const QUESTIONS = [
+  {q:"自然光下观察手腕内侧静脉，你的静脉偏向？", o:[
+    {t:"偏橄榄绿、黄绿色", v:{temp:"W"}},
+    {t:"偏蓝紫色、蓝青色", v:{temp:"C"}},
+    {t:"蓝绿都有，很难分辨", v:{temp:"N"}}]},
+  {q:"不涂防晒在阳光下晒后，你的皮肤通常？", o:[
+    {t:"容易晒成蜜棕、小麦色，不容易泛红", v:{temp:"W"}},
+    {t:"容易先发红、发烫，很难晒黑，易晒伤", v:{temp:"C"}},
+    {t:"有时发红有时晒棕", v:{temp:"N"}}]},
+  {q:"佩戴首饰，哪一类戴在肤色上更衬人？", o:[
+    {t:"黄金、黄铜、古铜金，气色更好", v:{temp:"W"}},
+    {t:"白银、铂金、冷银，肤色更干净通透", v:{temp:"C"}},
+    {t:"金银戴上效果差别不大", v:{temp:"N"}}]},
+  {q:"把纯白色布料放在脸旁，你的感受？", o:[
+    {t:"惨白、压肤色、显黄", v:{temp:"W"}},
+    {t:"干净提亮，很清爽", v:{temp:"C"}},
+    {t:"还好，没有明显好坏", v:{temp:"N"}}]},
+  {q:"米白 / 奶油白靠近面部，你的感受？", o:[
+    {t:"柔和提气色，很舒服", v:{temp:"W"}},
+    {t:"发闷、显灰、没精神", v:{temp:"C"}},
+    {t:"差别不大", v:{temp:"N"}}]},
+  {q:"你天生的原生发色（未染）是？", o:[
+    {t:"浅棕、蜂蜜棕、浅栗棕", v:{light:"L"}},
+    {t:"中等棕色，不深不浅", v:{light:"M"}},
+    {t:"深棕、乌黑、浓黑", v:{light:"D"}}]},
+  {q:"原生发色自带的底调质感？", o:[
+    {t:"带金调、红铜调、蜂蜜感", v:{temp:"W"}},
+    {t:"带青灰、雾感、炭灰感", v:{temp:"C"}},
+    {t:"无明显金 / 青底调", v:{temp:"N"}}]},
+  {q:"原生瞳孔的通透感？", o:[
+    {t:"清亮干净，边界清晰", v:{sat:"C"}},
+    {t:"朦胧柔和，像蒙一层薄雾", v:{sat:"S"}},
+    {t:"介于两者中间", v:{sat:"M"}}]},
+  {q:"瞳孔和眼白之间的对比？", o:[
+    {t:"黑白分明，反差很强", v:{con:"H"}},
+    {t:"边界柔和，反差弱", v:{con:"L"}},
+    {t:"反差适中", v:{con:"M"}}]},
+  {q:"肤色与原生发色的亮度差距？", o:[
+    {t:"发色明显比肤色暗很多，反差大", v:{con:"H"}},
+    {t:"发色和肤色亮度接近，反差小", v:{con:"L"}},
+    {t:"亮度差距中等", v:{con:"M"}}]},
+  {q:"亮清透的暖彩色（蜜桃、杏色、浅橙）上脸效果？", o:[
+    {t:"提亮、元气好看", v:{aff:"spring"}},
+    {t:"显土、显黄、不协调", v:{aff:"none"}},
+    {t:"一般，变化不大", v:{aff:"none"}}]},
+  {q:"灰调冷柔色（灰紫、灰蓝、雾粉）上脸效果？", o:[
+    {t:"温柔显干净，很适配", v:{aff:"summer"}},
+    {t:"脸色发灰、没气色", v:{aff:"none"}},
+    {t:"效果普通", v:{aff:"none"}}]},
+  {q:"浓郁厚重的暖调（焦糖、陶土、铁锈红）上脸效果？", o:[
+    {t:"衬肤色、有质感", v:{aff:"autumn"}},
+    {t:"沉闷显老、发黄", v:{aff:"none"}},
+    {t:"一般", v:{aff:"none"}}]},
+  {q:"纯正冷艳的高对比色（正红、宝蓝、纯黑）上脸效果？", o:[
+    {t:"干净惊艳、轮廓清晰", v:{aff:"winter"}},
+    {t:"生硬、惨白、冷得憔悴", v:{aff:"none"}},
+    {t:"普通", v:{aff:"none"}}]},
+  {q:"低饱和的灰调莫兰迪色系，对你来说？", o:[
+    {t:"柔和和谐，很适配", v:{sat:"S"}},
+    {t:"灰蒙蒙，把人衬得没精神", v:{sat:"C"}},
+    {t:"还行", v:{sat:"M"}}]},
+  {q:"高明度、轻盈清透的浅色系，对你？", o:[
+    {t:"轻盈通透，很适合", v:{light:"L"}},
+    {t:"hold 不住，轻飘飘没有质感", v:{light:"D"}},
+    {t:"适中", v:{light:"M"}}]},
+  {q:"厚重深色、浓郁暗色调，对你？", o:[
+    {t:"有力量、显精致", v:{light:"D"}},
+    {t:"压脸、沉闷、显暗沉", v:{light:"L"}},
+    {t:"适中", v:{light:"M"}}]},
+  {q:"柔和低对比的配色（同色系、低反差），上脸观感？", o:[
+    {t:"融合自然，舒服", v:{con:"L"}},
+    {t:"平淡无神，需要强反差", v:{con:"H"}},
+    {t:"都可以", v:{con:"M"}}]},
+  {q:"高反差撞色、强烈对比的搭配，对你？", o:[
+    {t:"突出五官，很出彩", v:{con:"H"}},
+    {t:"割裂刺眼，抢五官", v:{con:"L"}},
+    {t:"适中", v:{con:"M"}}]},
+  {q:"冷调柔和的灰粉色、薰衣草紫，和暖调杏桃色对比，哪组更适合你？", o:[
+    {t:"杏桃、蜜瓜这类暖浅彩色", v:{temp:"W"}},
+    {t:"灰粉、香芋紫这类冷柔彩色", v:{temp:"C"}},
+    {t:"两类穿上都不错", v:{temp:"N"}}]}
+];
+
+/* ============ 十二季型资料 ============ */
+const TYPES = [
+{
+  id:1, name:"浅春", en:"Light Spring", kicker:"春组 · 暖基调", accent:"#D79A66",
+  taim:[1,0.9,0.6,-0.35],
+  tagline:"像春日午后第一缕光，轻盈、明亮、带着蜜瓜与浅杏的通透感。",
+  summary:["暖", "浅", "清透", "中低对比"],
+  good:[{n:"蜜瓜橙",h:"#F9C89B"},{n:"浅杏",h:"#F6D7B8"},{n:"亮桃粉",h:"#F5A8A0"},{n:"奶黄",h:"#FAE6A2"},{n:"浅黄绿",h:"#D8E4A6"},{n:"晴空蓝",h:"#AFD8E6"}],
+  avoid:[{n:"深咖",h:"#4B3A2F"},{n:"炭黑",h:"#2F2C29"},{n:"浊橄榄",h:"#6E6A44"},{n:"灰紫",h:"#8A7C8C"}],
+  colors:"用同明度的浅暖色打底，全身不超过三个颜色。浅杏、蜜瓜橙放在上装最提气色，亮桃粉与浅黄绿放在下装或小面积配饰；想加一点清爽，用晴空蓝的丝巾或包做点缀，别大面积深色压住轻盈感。",
+  style:"轻薄、垂顺的面料最衬你：真丝、雪纺、细针织、薄棉麻。剪裁合身偏宽松，A 字裙、一字领、小飞袖、开衫、短款风衣都好穿；避开厚重廓形、硬挺皮衣和深色大西装。",
+  jewel:"浅金、玫瑰金、香槟金最合适，细链条、小珍珠耳钉、贝母与浅色小石；避免粗重的银饰和工业感冷金属。",
+  beauty:"妆面清透水光，蜜桃或珊瑚色腮红与口红；发色选蜂蜜棕、浅栗、奶茶棕，别留一头乌黑直发压住气色。"
+},
+{
+  id:2, name:"亮春", en:"Bright Spring", kicker:"春组 · 暖基调", accent:"#E27D2E",
+  taim:[1,0.4,0.95,0.0],
+  tagline:"鲜橙、芒果黄、珊瑚红，你是能把明快颜色穿活的那一类人。",
+  summary:["暖", "中浅", "清透", "中对比"],
+  good:[{n:"鲜橙",h:"#F2871F"},{n:"芒果黄",h:"#F6BA35"},{n:"珊瑚红",h:"#F2604A"},{n:"亮青绿",h:"#2FBFA6"},{n:"亮柠檬",h:"#F4DE55"},{n:"亮水蓝",h:"#3FB8DD"}],
+  avoid:[{n:"灰雾蓝",h:"#9FAFBC"},{n:"灰褐",h:"#8A7B6E"},{n:"暗酒红",h:"#5C2B34"},{n:"灰卡其",h:"#A99B85"}],
+  colors:"高饱和的正色可以直接上身：一件亮色当主角，其余用白、米白、浅牛仔这类中性色收住。两色撞色时按 1 : 0.6 的面积比分配，主色占大头最好看。",
+  style:"线条干净利落：直筒裤、短款西装、收腰连衣裙、V 领针织。面料带一点光泽——缎面、精纺棉、微亮的针织能撑住亮度，避免灰扑扑的哑光厚面料。",
+  jewel:"亮金、抛光金、亮面珍珠，几何造型或带一点设计感的小体量款式；哑光暗铜会让你整个人暗一档。",
+  beauty:"唇色可以明快些（珊瑚、橘红），眉形清晰、腮红位置偏上；发色试暖金棕、亮栗色。"
+},
+{
+  id:3, name:"暖春", en:"Warm Spring", kicker:"春组 · 暖基调", accent:"#B0763F",
+  taim:[1,0, -0.65,-0.75],
+  tagline:"南瓜、蜜茶、暖橄榄，温润的暖浊色在你身上会变得很高级。",
+  summary:["暖", "中", "柔", "低对比"],
+  good:[{n:"南瓜橙",h:"#C8722C"},{n:"蜜茶棕",h:"#C09257"},{n:"暖橄榄",h:"#8A8B45"},{n:"姜黄",h:"#D8A63C"},{n:"陶土橙",h:"#C26B45"},{n:"暖驼",h:"#C0996F"}],
+  avoid:[{n:"冷灰",h:"#9EA8AE"},{n:"冷蓝",h:"#35578C"},{n:"冰粉",h:"#EBD6DE"},{n:"银灰",h:"#B9BEC2"}],
+  colors:"温润的暖浊色最适合做同色系层次：蜜茶配驼色、南瓜配苔绿，中间用米白或奶油白过渡。整体对比压低一点，比一身黑白更显质感。",
+  style:"针织开衫、亚麻衬衫、宽松西装、直筒长裤都在你的安全区。材质偏天然——羊毛、亚麻、麂皮、粗织棉，纹理越明显越衬人。",
+  jewel:"古铜金、哑光金、木质与琥珀；略粗一点的金色耳圈、皮绳手链都好看，避开冷亮银。",
+  beauty:"暖调豆沙或砖色唇配雾面质地，眼影用暖棕；发色栗棕、焦糖棕。"
+},
+{
+  id:4, name:"浅夏", en:"Light Summer", kicker:"夏组 · 冷基调", accent:"#8FA9C2",
+  taim:[-1,0.85,-0.7,-0.85],
+  tagline:"雾蓝、灰粉、香芋紫，淡淡的冷莫兰迪色能让你的肤色变干净。",
+  summary:["冷", "浅", "柔", "低对比"],
+  good:[{n:"雾蓝",h:"#A9C1D6"},{n:"灰粉",h:"#E3C6CB"},{n:"香芋紫",h:"#CFC3DE"},{n:"浅灰绿",h:"#C4D4C7"},{n:"淡雾玫瑰",h:"#E0C9D0"},{n:"浅雾蓝灰",h:"#B8C8D7"}],
+  avoid:[{n:"荧光橙",h:"#FF7A1A"},{n:"正红",h:"#C8232B"},{n:"纯黑",h:"#16151A"},{n:"亮黄",h:"#FFD84D"}],
+  colors:"整身以浅灰调冷色为主，同色系深浅叠穿（雾蓝 + 浅雾蓝灰）最有层次。想加一点暖意，只放极小面积的浅杏色，别让暖色成为主色。",
+  style:"轻盈飘逸的单品：雪纺裙、薄针织、宽松衬衫、细肩带。避免厚重面料、强廓形和夸张垫肩。",
+  jewel:"浅银、白金、珍珠、月光石；细线链条和小耳钉，体量越小越干净。",
+  beauty:"冷调粉腮红、水润玫瑰唇；发色灰棕、冷栗、雾茶色。"
+},
+{
+  id:5, name:"柔夏", en:"Soft Summer", kicker:"夏组 · 冷基调", accent:"#9E90AE",
+  taim:[-1,0,-1,-0.95],
+  tagline:"灰薰衣草、灰豆沙、灰蓝，所有带灰雾感的冷色都是你的舒适区。",
+  summary:["冷", "中", "柔", "低对比"],
+  good:[{n:"灰薰衣草",h:"#B3A7BF"},{n:"灰豆沙",h:"#C1A7A4"},{n:"灰蓝",h:"#96AAB9"},{n:"灰玫瑰",h:"#C09AA1"},{n:"灰绿",h:"#A5B3A9"},{n:"雾霾蓝",h:"#8FA3B0"}],
+  avoid:[{n:"正红",h:"#C8232B"},{n:"荧光粉",h:"#FF5FA2"},{n:"纯白",h:"#FFFFFF"},{n:"亮橙",h:"#F2871F"}],
+  colors:"全身控制在灰调三色内，明度差不超过两级。灰蓝 + 灰紫 + 灰玫瑰是最稳的一组，无论怎么配都不会脏。",
+  style:"柔软垂坠的面料最合拍：真丝、莫代尔、细针织、薄羊毛。宽松直身剪裁、垂领、软肩线，别做硬挺结构。",
+  jewel:"哑光银、灰珍珠、磨砂金属，小巧不抢眼；亮面大件会让整体失焦。",
+  beauty:"烟粉、灰玫瑰色唇，妆面雾面；发色冷棕、灰栗，避开高亮挑染。"
+},
+{
+  id:6, name:"冷夏", en:"Cool Summer", kicker:"夏组 · 冷基调", accent:"#8B93AE",
+  taim:[-1,0,-0.45,0.1],
+  tagline:"灰玫瑰、灰蓝紫，冷而不艳，你可以比柔夏多一分清晰。",
+  summary:["冷", "中", "柔", "中对比"],
+  good:[{n:"灰玫瑰",h:"#C09AA2"},{n:"灰蓝紫",h:"#9AA6C4"},{n:"冷灰蓝",h:"#8FA6B8"},{n:"灰莓",h:"#B48A9E"},{n:"冷雾绿",h:"#9DB3AC"},{n:"冷灰紫",h:"#A9A2BE"}],
+  avoid:[{n:"焦糖",h:"#A9642F"},{n:"砖红",h:"#A64B3C"},{n:"暖驼",h:"#C0996F"},{n:"橙棕",h:"#B4684A"}],
+  colors:"冷色为主，但允许一点中等对比：灰蓝紫做主角，灰玫瑰做提亮，底色用冷白或浅灰蓝。避免暖土色系整体上身。",
+  style:"有结构的柔剪裁：小西装、衬衫裙、半身铅笔裙、垂感西装裤。面料选带垂感的缎面和精纺羊毛。",
+  jewel:"冷银、铂金、灰珍珠，配一点蓝宝石或冷色调小石。",
+  beauty:"冷调玫瑰唇、灰粉腮红；发色冷黑、冷棕。"
+},
+{
+  id:7, name:"暖秋", en:"Warm Autumn", kicker:"秋组 · 暖基调", accent:"#A0653F",
+  taim:[1,-0.4,-0.7,0],
+  tagline:"陶土、砖红、橄榄绿，大地色在你身上有天然的重量感。",
+  summary:["暖", "中深", "柔", "中对比"],
+  good:[{n:"陶土",h:"#B4684A"},{n:"砖红",h:"#A64B3C"},{n:"橄榄绿",h:"#6E7A3F"},{n:"芥末黄",h:"#C9A23F"},{n:"南瓜棕",h:"#A9642F"},{n:"暖驼",h:"#B08356"}],
+  avoid:[{n:"冰粉",h:"#EBD6DE"},{n:"冷蓝",h:"#35578C"},{n:"银灰",h:"#B9BEC2"},{n:"荧光绿",h:"#3FE08A"}],
+  colors:"大地色打底，深一档的暖色做主角，浅驼与米白做过渡。同色系层叠（米白 → 驼 → 陶土）是最省心也最显贵的一组。",
+  style:"有分量的剪裁：风衣、直筒长裤、粗针织、方领衬衫。羊毛、灯芯绒、麂皮、厚棉都合适。",
+  jewel:"古铜金、哑光金、琥珀、木质、皮革；有分量的耳环与手镯能稳住整体。",
+  beauty:"砖色或陶土色唇、暖棕眼影；发色深栗、巧克力棕、红棕。"
+},
+{
+  id:8, name:"柔秋", en:"Soft Autumn", kicker:"秋组 · 暖基调", accent:"#8B7256",
+  taim:[1,-0.85,-1,-0.65],
+  tagline:"巧克力棕、枯叶黄、灰陶，低反差的厚重浊暖，像秋日旧毛衣。",
+  summary:["暖", "偏深", "柔", "低对比"],
+  good:[{n:"巧克力棕",h:"#6B4E3D"},{n:"枯叶黄",h:"#B08A54"},{n:"灰陶",h:"#B9A08D"},{n:"橄榄灰",h:"#8A8C6E"},{n:"暖灰褐",h:"#9A8577"},{n:"灰焦糖",h:"#A98467"}],
+  avoid:[{n:"纯白",h:"#FFFFFF"},{n:"荧光粉",h:"#FF5FA2"},{n:"冰蓝",h:"#A9D7E3"},{n:"正黑",h:"#16151A"}],
+  colors:"全部带灰的暖色，明度差小、色相差也小。三层同色系最稳：奶油 → 驼 → 巧克力棕；配色越安静，质感越突出。",
+  style:"松弛感是你的关键词：大廓形针织、软塌西装、长裙、围巾叠搭。羊绒、磨毛棉、软皮革。",
+  jewel:"哑光金、氧化银、木质、哑光皮；做旧肌理胜过任何亮面。",
+  beauty:"豆沙或裸棕唇、雾面底妆；发色暖灰棕、奶茶棕。"
+},
+{
+  id:9, name:"深秋", en:"Deep Autumn", kicker:"秋组 · 暖基调", accent:"#83402F",
+  taim:[1,-0.9,0.7,0.5],
+  tagline:"铁锈红、琥珀、深苔绿，浓郁厚重才衬得出你的轮廓。",
+  summary:["暖", "深", "清透", "中高对比"],
+  good:[{n:"铁锈红",h:"#8C3A2A"},{n:"琥珀",h:"#B0791F"},{n:"深苔绿",h:"#4F5C33"},{n:"深砖红",h:"#7E352B"},{n:"深金棕",h:"#7A5626"},{n:"深橄榄",h:"#5A6033"}],
+  avoid:[{n:"马卡龙粉",h:"#F7C8D8"},{n:"冰蓝",h:"#A9D7E3"},{n:"浅米黄",h:"#F6E2B8"},{n:"银灰",h:"#B9BEC2"}],
+  colors:"深色做主体，亮色只交给金属质感的小面积（金饰、包扣、腰带扣）。黑咖、铁锈红、深苔绿三色组合最稳，也最显气色。",
+  style:"挺括、有厚度：大衣、皮质半裙、天鹅绒、宽肩西装。结构感强的剪裁比软塌款更衬。",
+  jewel:"复古金、琥珀、石榴石、深色宝石，体量感耳饰与叠戴手镯。",
+  beauty:"深砖红或酒红唇、暖棕眼线；发色深棕、乌木棕。"
+},
+{
+  id:10, name:"冷冬", en:"Cool Winter", kicker:"冬组 · 冷基调", accent:"#B03A44",
+  taim:[-1,-0.9,1,0.9],
+  tagline:"正红、宝蓝、纯黑纯白，干净锐利的冷色让你五官清晰。",
+  summary:["冷", "深", "清透", "高对比"],
+  good:[{n:"正红",h:"#C8232B"},{n:"宝蓝",h:"#1F4FA8"},{n:"纯黑",h:"#17161A"},{n:"纯白",h:"#FAFAFA"},{n:"冷玫红",h:"#C4366B"},{n:"冷松绿",h:"#1F5C4A"}],
+  avoid:[{n:"土黄",h:"#B08A54"},{n:"暖驼",h:"#C0996F"},{n:"灰浊绿",h:"#7C8470"},{n:"灰砖",h:"#A99B92"}],
+  colors:"核心是干净的正色 + 黑白。纯黑或纯白打底，一件正色点睛就足够；尽量避免中间调的灰浊色，那会让你显憔悴。",
+  style:"利落的直线条：西装、直筒裤、衬衫、大衣。精纺羊毛、真丝、挺括棉，别选毛茸茸的软面料。",
+  jewel:"亮银、白金、钻石感切割、黑玛瑙；几何造型，线条越利落越好。",
+  beauty:"正红或冷玫色唇，清晰眉形与眼线；发色纯黑、冷棕。"
+},
+{
+  id:11, name:"亮冬", en:"Bright Winter", kicker:"冬组 · 冷基调", accent:"#2F6FBF",
+  taim:[-0.9,0.35,1,0.9],
+  tagline:"电光蓝、冷玫红、冰蓝，冷而鲜亮，你能驾驭最锐利的撞色。",
+  summary:["冷", "中", "清透", "高对比"],
+  good:[{n:"电光蓝",h:"#0B72D0"},{n:"冷玫红",h:"#D6316F"},{n:"冰蓝",h:"#7FC7E3"},{n:"亮紫",h:"#7B43B9"},{n:"宝蓝",h:"#1B62D6"},{n:"亮紫红",h:"#C2185B"}],
+  avoid:[{n:"灰豆沙",h:"#C1A7A4"},{n:"灰绿",h:"#A5B3A9"},{n:"灰雾蓝",h:"#9FAFBC"},{n:"米灰",h:"#D9D2C9"}],
+  colors:"高饱和冷色配纯白最出彩：一亮一深强烈撞色，再用纯白或纯黑中和。别在灰调柔和色里打转，会显得没有精神。",
+  style:"线条清晰、面料有光泽：缎面、漆感皮革、精纺羊毛。短外套配高腰线，把比例做干净。",
+  jewel:"高亮银、白金、亮面切割，可以选大一点的设计款。",
+  beauty:"冷调亮唇、清晰眼线；发色冷黑、蓝黑。"
+},
+{
+  id:12, name:"深冬", en:"Deep Winter", kicker:"冬组 · 冷基调", accent:"#2C3550",
+  taim:[-1,-1,1,1],
+  tagline:"纯黑、宝石蓝、冷酒红，极深的冷色与冰白之间，是你的主场。",
+  summary:["冷", "很深", "清透", "极高对比"],
+  good:[{n:"正黑",h:"#101014"},{n:"宝石蓝",h:"#1B3A8C"},{n:"冷酒红",h:"#6E1F35"},{n:"深紫",h:"#4A2350"},{n:"深松绿",h:"#123329"},{n:"冰白",h:"#FCFCFC"}],
+  avoid:[{n:"灰粉",h:"#E3C6CB"},{n:"灰陶",h:"#B9A08D"},{n:"浅杏",h:"#F6D7B8"},{n:"灰薰衣草",h:"#B3A7BF"}],
+  colors:"极深的冷色配冰白，明度差拉满。黑 + 宝石蓝、黑 + 冷酒红是最强的两组；中间灰一律不用，柔和莫兰迪会让你整个人糊掉。",
+  style:"结构与体量：宽肩大衣、直筒长裤、缎面衬衫、皮革。面料要挺、要有厚度，撑得起深色。",
+  jewel:"银、白金、黑玛瑙、深色宝石，强反光的冷金属。",
+  beauty:"冷调深红或莓色唇，轮廓分明；发色纯黑、深冷棕。"
+}
+];
+</script>
+<script>
+(function(){
+  const views = {
+    cover: document.getElementById('view-cover'),
+    quiz: document.getElementById('view-quiz'),
+    result: document.getElementById('view-result')
+  };
+  const qText = document.getElementById('qText');
+  const qNum = document.getElementById('qNum');
+  const qNow = document.getElementById('qNow');
+  const options = document.getElementById('options');
+  const progressFill = document.getElementById('progressFill');
+  const nextBtn = document.getElementById('nextBtn');
+  const prevBtn = document.getElementById('prevBtn');
+  const backBtn = document.getElementById('backBtn');
+  const resHead = document.getElementById('resHead');
+  const resBody = document.getElementById('resBody');
+  const toast = document.getElementById('toast');
+  const LETTERS = ['A','B','C'];
+
+  let answers = new Array(QUESTIONS.length).fill(null);
+  let idx = 0;
+  let current = null;
+
+  function show(name){
+    Object.keys(views).forEach(k => views[k].classList.toggle('active', k === name));
+    window.scrollTo({top:0, behavior:'smooth'});
+  }
+
+  function toastShow(msg){
+    toast.textContent = msg;
+    toast.classList.add('show');
+    clearTimeout(toastShow.t);
+    toastShow.t = setTimeout(function(){ toast.classList.remove('show'); }, 1800);
+  }
+
+  /* ---------- 答题 ---------- */
+  function renderQuestion(){
+    const q = QUESTIONS[idx];
+    qText.textContent = q.q;
+    qNum.textContent = idx + 1;
+    qNow.textContent = idx + 1;
+
+    const step = (idx + (answers[idx] !== null ? 1 : 0)) / QUESTIONS.length;
+    progressFill.style.width = (step * 100).toFixed(1) + '%';
+
+    options.innerHTML = '';
+    q.o.forEach(function(o, i){
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'opt';
+      btn.setAttribute('aria-pressed', answers[idx] === i ? 'true' : 'false');
+      const badge = document.createElement('span');
+      badge.className = 'badge';
+      badge.textContent = LETTERS[i];
+      const label = document.createElement('span');
+      label.textContent = o.t;
+      btn.appendChild(badge);
+      btn.appendChild(label);
+      btn.addEventListener('click', function(){
+        answers[idx] = i;
+        renderQuestion();
+      });
+      options.appendChild(btn);
+    });
+
+    nextBtn.disabled = answers[idx] === null;
+    nextBtn.textContent = idx === QUESTIONS.length - 1 ? '查看我的季型' : '下一题';
+    prevBtn.disabled = idx === 0;
+    prevBtn.style.opacity = idx === 0 ? '.45' : '1';
+    prevBtn.style.cursor = idx === 0 ? 'not-allowed' : 'pointer';
+  }
+
+  function start(){
+    answers = new Array(QUESTIONS.length).fill(null);
+    idx = 0;
+    renderQuestion();
+    show('quiz');
+  }
+
+  /* ---------- 计算 ---------- */
+  function computeProfile(){
+    const c = {
+      temp:{W:0,C:0,N:0},
+      light:{L:0,D:0,M:0},
+      sat:{C:0,S:0,M:0},
+      con:{H:0,L:0,M:0},
+      aff:{spring:0,summer:0,autumn:0,winter:0}
+    };
+    answers.forEach(function(a, i){
+      const v = QUESTIONS[i].o[a].v;
+      if (v.temp) c.temp[v.temp]++;
+      if (v.light) c.light[v.light]++;
+      if (v.sat) c.sat[v.sat]++;
+      if (v.con) c.con[v.con]++;
+      if (v.aff && v.aff !== 'none') c.aff[v.aff]++;
+    });
+
+    let temp;
+    if (c.temp.W > c.temp.C) temp = 1;
+    else if (c.temp.C > c.temp.W) temp = -1;
+    else temp = (c.aff.spring + c.aff.autumn >= c.aff.summer + c.aff.winter) ? 1 : -1;
+
+    const light = (c.light.L - c.light.D) / 3;
+    const sat = (c.sat.C - c.sat.S) / 2;
+    const con = (c.con.H - c.con.L) / 4;
+
+    const tempNeutral = c.temp.N >= Math.max(c.temp.W, c.temp.C);
+    const lightNeutral = Math.abs(light) <= 0.34;
+    const satMid = Math.abs(sat) <= 0.25;
+    const conMid = Math.abs(con) <= 0.3;
+
+    const tempLabel = tempNeutral
+      ? (temp > 0 ? '中性偏暖' : '中性偏冷')
+      : (temp > 0 ? '暖' : '冷');
+    const lightLabel = lightNeutral ? '中' : (light > 0 ? '浅' : '深');
+    const satLabel = satMid ? '中等' : (sat > 0 ? '清透' : '柔浊');
+    const conLabel = conMid ? '中' : (con > 0 ? '高' : '低');
+
+    let best = TYPES[0], bestD = Infinity;
+    TYPES.forEach(function(T){
+      const d = 1.8 * Math.pow(temp - T.taim[0], 2)
+              + 1.1 * Math.pow(light - T.taim[1], 2)
+              + 1.0 * Math.pow(sat - T.taim[2], 2)
+              + 1.2 * Math.pow(con - T.taim[3], 2);
+      if (d < bestD) { bestD = d; best = T; }
+    });
+
+    return {
+      temp: temp, light: light, sat: sat, con: con,
+      tempNeutral: tempNeutral, lightNeutral: lightNeutral,
+      satMid: satMid, conMid: conMid,
+      tempLabel: tempLabel, lightLabel: lightLabel,
+      satLabel: satLabel, conLabel: conLabel,
+      type: best
+    };
+  }
+
+  function notes(p){
+    const tempNote = p.tempNeutral
+      ? (p.temp > 0
+        ? '冷暖界限模糊，整体略偏暖：暖浊色、中性色都能穿，纯冷正色建议先试过再买。'
+        : '冷暖界限模糊，整体略偏冷：灰调冷色更稳，暖橙系尽量只做小面积点缀。')
+      : (p.temp > 0
+        ? '暖底色：带黄调、红调的颜色更容易融进你的肤色，冷调正色容易显黄显灰。'
+        : '冷底色：带蓝调、青调的颜色让你更干净通透，暖土色容易把脸色带黄。');
+
+    const lightNote = p.lightNeutral
+      ? '明度居中：浅、中、深都能驾驭，主次交给对比度来决定就好。'
+      : (p.light > 0
+        ? '明度偏高：浅色比深色更衬人，从头到脚一身深色容易压住气色。'
+        : '明度偏深：中深到深色更有质感，浅淡柔和的颜色会显得没有分量。');
+
+    const satNote = p.satMid
+      ? '饱和度不用刻意拉高或压低，避开极端的荧光色就不会出错。'
+      : (p.sat > 0
+        ? '颜色越干净通透越好看；灰浊、雾面的颜色容易显脏显旧。'
+        : '灰调柔和的颜色更协调；纯亮色会抢走你五官的存在感。');
+
+    const conNote = p.conMid
+      ? '中等对比最稳：一处亮点配大面积低反差，是最好用的搭配公式。'
+      : (p.con > 0
+        ? '高对比更出彩：亮色配深色、纯黑配纯白，都比同色系更提气。'
+        : '低反差更舒服：同色系、邻近色最自然，强撞色会把人割裂。');
+
+    return {tempNote:tempNote, lightNote:lightNote, satNote:satNote, conNote:conNote};
+  }
+
+  function dimBlock(label, value, val, note){
+    const pos = ((val + 1) / 2 * 100).toFixed(1);
+    return '<div class="dim">'
+      + '<div class="dim-top"><span>' + label + '</span><b>' + value + '</b></div>'
+      + '<div class="dim-track"><span class="fill" style="width:' + pos + '%"></span>'
+      + '<span class="knob" style="left:' + pos + '%"></span></div>'
+      + '<p class="dim-note">' + note + '</p>'
+      + '</div>';
+  }
+
+  /* ---------- 结果 ---------- */
+  function renderResult(){
+    const p = computeProfile();
+    const T = p.type;
+    current = T;
+    const n = notes(p);
+
+    document.documentElement.style.setProperty('--accent', T.accent);
+    document.documentElement.style.setProperty('--accent-tint', '#F5F0EC');
+
+    resHead.innerHTML =
+      '<p class="res-kicker">' + T.kicker + ' · 第 ' + T.id + ' 型</p>'
+      + '<h2 class="res-name serif">' + T.name + '</h2>'
+      + '<p class="res-en">' + T.en + '</p>'
+      + '<p class="res-tagline">' + T.tagline + '</p>'
+      + '<img class="res-photo" alt="' + T.name + '配色与单品示范" src="' + document.getElementById('img-' + T.id).src + '">';
+
+    let html = '';
+    html += '<div class="dims"><p class="dims-head">你的色彩坐标</p>'
+      + dimBlock('冷暖', p.tempLabel, p.temp, n.tempNote)
+      + dimBlock('明度', p.lightLabel, p.light, n.lightNote)
+      + dimBlock('饱和度', p.satLabel, p.sat, n.satNote)
+      + dimBlock('对比度', p.conLabel, p.con, n.conNote)
+      + '</div>';
+
+    html += '<section class="sec"><h3 class="serif">最适合你的颜色</h3>'
+      + '<p class="sub">上脸最不容易出错的一组，闭眼买也不会翻车</p><div class="pal">';
+    T.good.forEach(function(g){
+      html += '<div class="sw"><div class="chip" style="background:' + g.h + '"></div>'
+        + '<div class="meta"><div class="nm">' + g.n + '</div><div class="hx">' + g.h + '</div></div></div>';
+    });
+    html += '</div></section>';
+
+    html += '<section class="sec"><h3 class="serif">尽量少碰的颜色</h3>'
+      + '<p class="sub">不是不能穿，是会让气色打折</p><div class="avoid">';
+    T.avoid.forEach(function(g){
+      html += '<div class="sw"><div class="chip" style="background:' + g.h + '"></div>'
+        + '<div class="meta"><div class="nm">' + g.n + '</div></div></div>';
+    });
+    html += '</div></section>';
+
+    html += '<div class="advice">'
+      + advItem('服装配色', T.colors)
+      + advItem('款式与面料', T.style)
+      + advItem('饰品', T.jewel)
+      + advItem('妆容与发色', T.beauty)
+      + '</div>';
+
+    resBody.innerHTML = html;
+    show('result');
+  }
+
+  function advItem(title, text){
+    return '<div class="adv"><h4 class="serif"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h10"/></svg>' + title + '</h4><p>' + text + '</p></div>';
+  }
+
+  /* ---------- 事件 ---------- */
+  document.getElementById('startBtn').addEventListener('click', start);
+  document.getElementById('retryBtn').addEventListener('click', start);
+
+  nextBtn.addEventListener('click', function(){
+    if (answers[idx] === null) return;
+    if (idx < QUESTIONS.length - 1) {
+      idx++;
+      renderQuestion();
+    } else {
+      renderResult();
+    }
+  });
+
+  prevBtn.addEventListener('click', function(){
+    if (idx > 0) { idx--; renderQuestion(); }
+  });
+
+  backBtn.addEventListener('click', function(){
+    if (idx > 0) { idx--; renderQuestion(); }
+    else { show('cover'); }
+  });
+
+  document.getElementById('copyBtn').addEventListener('click', function(){
+    if (!current) return;
+    const T = current;
+    const text = '我的四季色彩是「' + T.name + '」｜' + T.summary.join(' · ') + '\n'
+      + '适合：' + T.good.map(function(g){return g.n;}).join('、') + '\n'
+      + '避开：' + T.avoid.map(function(g){return g.n;}).join('、') + '\n'
+      + T.tagline + '\n——来自「测测你的四季色彩」';
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(function(){ toastShow('文案已复制，去小红书发一篇吧'); },
+        function(){ fallbackCopy(text); });
+    } else {
+      fallbackCopy(text);
+    }
+  });
+
+  function fallbackCopy(text){
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    try { document.execCommand('copy'); toastShow('文案已复制'); }
+    catch(e) { toastShow('复制失败，请手动选中文本'); }
+    document.body.removeChild(ta);
+  }
+})();
+</script>
+</body>
+</html>
